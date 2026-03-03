@@ -11,6 +11,20 @@ def run(command: str):
 def close():
     database.close()
 
+def show_tables():
+    tables = []
+    cursor.execute("""SELECT name FROM sqlite_master WHERE type='table'""")
+    unformat_tables = cursor.fetchall()
+    for item in unformat_tables:
+        tables.append(item[0])
+    return tables
+
+def table_exist(table: str):
+    if table in show_tables():
+        return "exists"
+    else:
+        return "no exist"
+
 class invalid_parameter(Exception):
     pass
 
@@ -23,7 +37,7 @@ class table:
                 temp_list.append(self.data_types[0])
             self.data_types = temp_list
         elif len(columns) != len(data_types):
-            raise invalid_parameter("Invalid number of Data Types")
+            raise invalid_parameter("invalid number of data types")
 
     def __str__(self):
         return f"Table Name: {self.name}"
