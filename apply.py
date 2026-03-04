@@ -1,8 +1,6 @@
-from main import init, run, close, table
+from main import database
 
-init("maindb")
+db = database("test")
+print(db.show_tables())
 
-new = table("test", ["name", "age", "date"], ["INT"])
-new.create()
-
-close()
+db.build_table("table", ["a", "b", "c"], ["INT", "INT", "INT"])
